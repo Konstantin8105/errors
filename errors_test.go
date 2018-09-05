@@ -3,6 +3,8 @@ package errors
 import (
 	"fmt"
 	"testing"
+
+	"github.com/bradleyjkemp/cupaloy"
 )
 
 func TestErrorTree(t *testing.T) {
@@ -25,5 +27,9 @@ func TestErrorTree(t *testing.T) {
 			et.Add(ett)
 		}
 	}
-	fmt.Println(et.Error())
+	t.Log(et.Error())
+
+	if err := cupaloy.SnapshotMulti("Tree", et.Error()); err != nil {
+		t.Fatalf("error: %s", err)
+	}
 }
