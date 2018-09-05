@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/Konstantin8105/errors/badge.svg?branch=master)](https://coveralls.io/github/Konstantin8105/errors?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Konstantin8105/errors)](https://goreportcard.com/report/github.com/Konstantin8105/errors)
 [![GoDoc](https://godoc.org/github.com/Konstantin8105/errors?status.svg)](https://godoc.org/github.com/Konstantin8105/errors)
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
