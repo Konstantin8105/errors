@@ -49,11 +49,11 @@ func ExampleErrorTree() {
 	// └── Error case 1
 }
 
-func ExampleIsError() {
+func Example() {
 	// some input data
-	var f float64 = math.NaN()
-	var i int = -32
-	var s string = ""
+	f := math.NaN()
+	i := -32
+	var s string
 
 	// checking
 	var et ErrorTree
