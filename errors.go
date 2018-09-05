@@ -2,35 +2,35 @@ package errors
 
 import "github.com/disiqueira/gotree"
 
-// ErrorTree is struct of error tree
-type ErrorTree struct {
+// Tree is struct of error tree
+type Tree struct {
 	Name string
 	errs []error
 }
 
 // Add error in tree node
-func (e *ErrorTree) Add(err error) {
+func (e *Tree) Add(err error) {
 	e.errs = append(e.errs, err)
 }
 
 // Error is typical function for interface error
-func (e ErrorTree) Error() (s string) {
+func (e Tree) Error() (s string) {
 	return e.getTree().Print()
 }
 
 // IsError check have errors in tree
-func (e ErrorTree) IsError() bool {
+func (e Tree) IsError() bool {
 	return len(e.errs) > 0
 }
 
-func (e ErrorTree) getTree() gotree.Tree {
+func (e Tree) getTree() gotree.Tree {
 	name := "+"
 	if e.Name != "" {
 		name = e.Name
 	}
 	t := gotree.New(name)
 	for _, err := range e.errs {
-		if et, ok := err.(ErrorTree); ok {
+		if et, ok := err.(Tree); ok {
 			t.AddTree(et.getTree())
 			continue
 		}

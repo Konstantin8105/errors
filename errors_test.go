@@ -9,15 +9,15 @@ import (
 )
 
 func TestErrorTree(t *testing.T) {
-	var et ErrorTree
+	var et Tree
 	for i := 0; i < 10; i++ {
 		et.Add(fmt.Errorf("Error %d", i))
 		if i%3 == 0 {
-			var ett ErrorTree
+			var ett Tree
 			for j := 0; j < i/3+1; j++ {
 				ett.Add(fmt.Errorf("Inside error %d", j))
 				if j%2 == 0 {
-					var ettt ErrorTree
+					var ettt Tree
 					ettt.Name = "Some deep deep errors"
 					for k := 0; k < 1+j/2; k++ {
 						ettt.Add(fmt.Errorf("Deep error %d", k))
@@ -35,8 +35,8 @@ func TestErrorTree(t *testing.T) {
 	}
 }
 
-func ExampleErrorTree() {
-	var et ErrorTree
+func ExampleTree() {
+	var et Tree
 	et.Name = "Check error tree"
 	for i := 0; i < 2; i++ {
 		et.Add(fmt.Errorf("Error case %d", i))
@@ -56,7 +56,7 @@ func Example() {
 	var s string
 
 	// checking
-	var et ErrorTree
+	var et Tree
 	et.Name = "Check input data"
 	if math.IsNaN(f) {
 		et.Add(fmt.Errorf("Parameter `f` is NaN"))

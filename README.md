@@ -17,7 +17,7 @@ go get -u github.com/Konstantin8105/errors
 
 ```go
 func ExampleError() {
-	var et ErrorTree
+	var et Tree
 	et.Name = "Check error tree"
 	for i := 0; i < 2; i++ {
 		et.Add(fmt.Errorf("Error case %d", i))
@@ -39,7 +39,7 @@ func ExampleIsError() {
 	var s string
 
 	// checking
-	var et ErrorTree
+	var et Tree
 	et.Name = "Check input data"
 	if math.IsNaN(f) {
 		et.Add(fmt.Errorf("Parameter `f` is NaN"))
@@ -66,7 +66,7 @@ func ExampleIsError() {
 }
 ```
 
-Acceptable add in ErrorTree another ErrorTree and possibly look like that:
+Acceptable add in error tree another error tree and possibly look like that:
 
 ```
 +
