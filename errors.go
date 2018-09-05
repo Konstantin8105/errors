@@ -2,19 +2,23 @@ package errors
 
 import "github.com/disiqueira/gotree"
 
+// ErrorTree is struct of error tree
 type ErrorTree struct {
 	Name string
 	errs []error
 }
 
+// Add error in tree node
 func (e *ErrorTree) Add(err error) {
 	e.errs = append(e.errs, err)
 }
 
+// Error is typical function for interface error
 func (e ErrorTree) Error() (s string) {
 	return e.getTree().Print()
 }
 
+// IsError check have errors in tree
 func (e ErrorTree) IsError() bool {
 	return len(e.errs) > 0
 }

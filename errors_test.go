@@ -35,7 +35,7 @@ func TestErrorTree(t *testing.T) {
 	}
 }
 
-func ExampleError() {
+func ExampleErrorTree() {
 	var et ErrorTree
 	et.Name = "Check error tree"
 	for i := 0; i < 2; i++ {
@@ -55,7 +55,7 @@ func ExampleIsError() {
 	var i int = -32
 	var s string = ""
 
-	// chacking
+	// checking
 	var et ErrorTree
 	et.Name = "Check input data"
 	if math.IsNaN(f) {
@@ -80,5 +80,4 @@ func ExampleIsError() {
 	// ├── Parameter `f` is NaN
 	// ├── Parameter `i` is less zero
 	// └── Parameter `s` is empty
-
 }

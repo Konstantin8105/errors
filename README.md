@@ -37,7 +37,7 @@ func ExampleIsError() {
 	var i int = -32
 	var s string = ""
 
-	// chacking
+	// checking
 	var et ErrorTree
 	et.Name = "Check input data"
 	if math.IsNaN(f) {
