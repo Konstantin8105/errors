@@ -65,3 +65,47 @@ func ExampleIsError() {
 	// └── Parameter `s` is empty
 }
 ```
+
+Acceptable add in ErrorTree another ErrorTree and possibly look like that:
+
+```
++
+├── Error 0
+├── +
+│   ├── Inside error 0
+│   └── Some deep deep errors
+│       └── Deep error 0
+├── Error 1
+├── Error 2
+├── Error 3
+├── +
+│   ├── Inside error 0
+│   ├── Some deep deep errors
+│   │   └── Deep error 0
+│   └── Inside error 1
+├── Error 4
+├── Error 5
+├── Error 6
+├── +
+│   ├── Inside error 0
+│   ├── Some deep deep errors
+│   │   └── Deep error 0
+│   ├── Inside error 1
+│   ├── Inside error 2
+│   └── Some deep deep errors
+│       ├── Deep error 0
+│       └── Deep error 1
+├── Error 7
+├── Error 8
+├── Error 9
+└── +
+    ├── Inside error 0
+    ├── Some deep deep errors
+    │   └── Deep error 0
+    ├── Inside error 1
+    ├── Inside error 2
+    ├── Some deep deep errors
+    │   ├── Deep error 0
+    │   └── Deep error 1
+    └── Inside error 3
+```
