@@ -2,6 +2,7 @@ package errors
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/bradleyjkemp/cupaloy"
@@ -46,4 +47,38 @@ func ExampleError() {
 	// Check error tree
 	// ├── Error case 0
 	// └── Error case 1
+}
+
+func ExampleIsError() {
+	// some input data
+	var f float64 = math.NaN()
+	var i int = -32
+	var s string = ""
+
+	// chacking
+	var et ErrorTree
+	et.Name = "Check input data"
+	if math.IsNaN(f) {
+		et.Add(fmt.Errorf("Parameter `f` is NaN"))
+	}
+	if f < 0 {
+		et.Add(fmt.Errorf("Parameter `f` is negative"))
+	}
+	if i < 0 {
+		et.Add(fmt.Errorf("Parameter `i` is less zero"))
+	}
+	if s == "" {
+		et.Add(fmt.Errorf("Parameter `s` is empty"))
+	}
+
+	if et.IsError() {
+		fmt.Println(et.Error())
+	}
+
+	// Output:
+	// Check input data
+	// ├── Parameter `f` is NaN
+	// ├── Parameter `i` is less zero
+	// └── Parameter `s` is empty
+
 }
