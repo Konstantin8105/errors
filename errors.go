@@ -16,8 +16,9 @@ func New(name string) *Tree {
 }
 
 // Add error in tree node
-func (e *Tree) Add(err error) {
+func (e *Tree) Add(err error) *Tree {
 	e.errs = append(e.errs, err)
+	return e
 }
 
 // Error is typical function for interface error
