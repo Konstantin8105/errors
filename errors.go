@@ -8,6 +8,13 @@ type Tree struct {
 	errs []error
 }
 
+// New create a new tree error
+func New(name string) *Tree {
+	tr := new(Tree)
+	tr.Name = name
+	return tr
+}
+
 // Add error in tree node
 func (e *Tree) Add(err error) {
 	e.errs = append(e.errs, err)

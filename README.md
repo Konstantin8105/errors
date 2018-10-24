@@ -17,8 +17,7 @@ go get -u github.com/Konstantin8105/errors
 
 ```go
 func ExampleError() {
-	var et Tree
-	et.Name = "Check error tree"
+	et := New("Check error tree")
 	for i := 0; i < 2; i++ {
 		et.Add(fmt.Errorf("Error case %d", i))
 	}

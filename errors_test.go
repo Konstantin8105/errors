@@ -36,8 +36,7 @@ func TestErrorTree(t *testing.T) {
 }
 
 func ExampleTree() {
-	var et Tree
-	et.Name = "Check error tree"
+	et := New("Check error tree")
 	for i := 0; i < 2; i++ {
 		et.Add(fmt.Errorf("Error case %d", i))
 	}
