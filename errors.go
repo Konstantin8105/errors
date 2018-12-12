@@ -46,3 +46,8 @@ func (e Tree) getTree() gotree.Tree {
 	}
 	return t
 }
+
+// Reset errors in tree
+func (e *Tree) Reset() {
+	e.errs = nil
+}

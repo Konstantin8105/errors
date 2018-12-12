@@ -33,6 +33,11 @@ func TestErrorTree(t *testing.T) {
 	if err := cupaloy.SnapshotMulti("Tree", et.Error()); err != nil {
 		t.Fatalf("error: %s", err)
 	}
+
+	et.Reset()
+	if et.IsError() || len(et.errs) > 0 {
+		t.Fatalf("Reset is not working")
+	}
 }
 
 func ExampleTree() {
