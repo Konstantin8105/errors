@@ -20,6 +20,9 @@ func (e *Tree) Add(err error) *Tree {
 	if e == (*Tree)(nil) {
 		return nil
 	}
+	if et, ok := err.(Tree); ok {
+		err = &et
+	}
 	e.errs = append(e.errs, err)
 	return e
 }
@@ -41,7 +44,7 @@ func (e Tree) getTree() *tree.Tree {
 	}
 	t := tree.New(name)
 	for _, err := range e.errs {
-		if et, ok := err.(Tree); ok {
+		if et, ok := err.(*Tree); ok {
 			t.Add(et.getTree())
 			continue
 		}
@@ -53,4 +56,18 @@ func (e Tree) getTree() *tree.Tree {
 // Reset errors in tree
 func (e *Tree) Reset() {
 	e.errs = nil
+}
+
+// Walk walking by error tree
+func Walk(t *Tree, f func(error)) {
+	if t == (*Tree)(nil) {
+		return
+	}
+	for i := range t.errs {
+		if et, ok := t.errs[i].(*Tree); ok {
+			Walk(et, f)
+			continue
+		}
+		f(t.errs[i])
+	}
 }

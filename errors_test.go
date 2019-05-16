@@ -38,8 +38,16 @@ func ExamplePrint() {
 		}
 	}
 	et.Add(fmt.Errorf("Multiline error:\nvalue is complex"))
+
+	// print error tree
 	fmt.Fprintf(os.Stdout, "%s\n", et.Error())
 
+	// walk
+	Walk(&et, func(e error) {
+		fmt.Fprintf(os.Stdout, "%T %v\n", e, e)
+	})
+
+	// reset
 	et.Reset()
 	if et.IsError() || len(et.errs) > 0 {
 		fmt.Fprintf(os.Stdout, "Reset is not working\n")
@@ -87,6 +95,37 @@ func ExamplePrint() {
 	// │  └──Inside error 3
 	// └──Multiline error:
 	//    value is complex
+	//
+	// *errors.errorString Error 0
+	// *errors.errorString Inside error 0
+	// *errors.errorString Deep error 0
+	// *errors.errorString Error 1
+	// *errors.errorString Error 2
+	// *errors.errorString Error 3
+	// *errors.errorString Inside error 0
+	// *errors.errorString Deep error 0
+	// *errors.errorString Inside error 1
+	// *errors.errorString Error 4
+	// *errors.errorString Error 5
+	// *errors.errorString Error 6
+	// *errors.errorString Inside error 0
+	// *errors.errorString Deep error 0
+	// *errors.errorString Inside error 1
+	// *errors.errorString Inside error 2
+	// *errors.errorString Deep error 0
+	// *errors.errorString Deep error 1
+	// *errors.errorString Error 7
+	// *errors.errorString Error 8
+	// *errors.errorString Error 9
+	// *errors.errorString Inside error 0
+	// *errors.errorString Deep error 0
+	// *errors.errorString Inside error 1
+	// *errors.errorString Inside error 2
+	// *errors.errorString Deep error 0
+	// *errors.errorString Deep error 1
+	// *errors.errorString Inside error 3
+	// *errors.errorString Multiline error:
+	// value is complex
 }
 
 func ExampleTree() {
