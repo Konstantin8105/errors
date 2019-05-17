@@ -42,6 +42,8 @@ func ExamplePrint() {
 			et.Add(ett)
 		}
 	}
+	et.Add(nil)
+	et.Add((error)(nil))
 	et.Add(fmt.Errorf("Multiline error:\nvalue is complex"))
 
 	// print error tree
