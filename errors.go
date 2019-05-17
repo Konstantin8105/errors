@@ -1,6 +1,8 @@
 package errors
 
-import "github.com/Konstantin8105/tree"
+import (
+	"github.com/Konstantin8105/tree"
+)
 
 // Tree is struct of error tree
 type Tree struct {
@@ -17,6 +19,9 @@ func New(name string) *Tree {
 
 // Add error in tree node
 func (e *Tree) Add(err error) *Tree {
+	if err == (error)(nil) {
+		return nil
+	}
 	if e == (*Tree)(nil) {
 		return nil
 	}
