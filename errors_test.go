@@ -56,7 +56,7 @@ func ExamplePrint() {
 
 	// reset
 	et.Reset()
-	if et.IsError() || len(et.errs) > 0 {
+	if et.IsError() || 0 < len(et.Errs) {
 		fmt.Fprintf(os.Stdout, "Reset is not working\n")
 	}
 

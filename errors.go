@@ -7,7 +7,7 @@ import (
 // Tree is struct of error tree
 type Tree struct {
 	Name string
-	errs []error
+	Errs []error
 }
 
 // New create a new tree error
@@ -28,7 +28,7 @@ func (e *Tree) Add(err error) *Tree {
 	if et, ok := err.(Tree); ok {
 		err = &et
 	}
-	e.errs = append(e.errs, err)
+	e.Errs = append(e.Errs, err)
 	return e
 }
 
@@ -39,7 +39,7 @@ func (e Tree) Error() (s string) {
 
 // IsError check have errors in tree
 func (e Tree) IsError() bool {
-	return len(e.errs) > 0
+	return 0 < len(e.Errs)
 }
 
 func (e Tree) getTree() *tree.Tree {
@@ -48,7 +48,7 @@ func (e Tree) getTree() *tree.Tree {
 		name = e.Name
 	}
 	t := tree.New(name)
-	for _, err := range e.errs {
+	for _, err := range e.Errs {
 		if et, ok := err.(*Tree); ok {
 			t.Add(et.getTree())
 			continue
@@ -60,7 +60,7 @@ func (e Tree) getTree() *tree.Tree {
 
 // Reset errors in tree
 func (e *Tree) Reset() {
-	e.errs = nil
+	e.Errs = nil
 }
 
 // Walk walking by error tree
@@ -68,11 +68,11 @@ func Walk(t *Tree, f func(error)) {
 	if t == (*Tree)(nil) {
 		return
 	}
-	for i := range t.errs {
-		if et, ok := t.errs[i].(*Tree); ok {
+	for i := range t.Errs {
+		if et, ok := t.Errs[i].(*Tree); ok {
 			Walk(et, f)
 			continue
 		}
-		f(t.errs[i])
+		f(t.Errs[i])
 	}
 }
