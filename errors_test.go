@@ -4,20 +4,70 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"runtime/debug"
 	"testing"
 )
+
+// cpu: Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
+// BenchmarkAdd/nil-8         	321649880	       3.692 ns/op	       0 B/op	       0 allocs/op
+// BenchmarkAdd/tree.nil-8    	13806802	       99.74 ns/op	      48 B/op	       1 allocs/op
+// BenchmarkAdd/tree-8        	11324592	       102.1 ns/op	      48 B/op	       1 allocs/op
+//
+// BenchmarkAdd/nil-8         	1000000000	      0.6858 ns/op	       0 B/op	       0 allocs/op
+// BenchmarkAdd/tree.nil-8    	15273708	       103.7 ns/op	      48 B/op	       1 allocs/op
+// BenchmarkAdd/tree-8        	12396004	       97.07 ns/op	      48 B/op	       1 allocs/op
+//
+// BenchmarkAdd/nil-8         	1000000000	         0.6672 ns/op	       0 B/op	       0 allocs/op
+// BenchmarkAdd/tree.nil-8    	506320782	         2.335 ns/op	       0 B/op	       0 allocs/op
+// BenchmarkAdd/tree-8        	529980600	         2.066 ns/op	       0 B/op	       0 allocs/op
+func BenchmarkAdd(b *testing.B) {
+	b.Run("nil", func(b *testing.B) {
+		e := New("test.nil")
+		for n := 0; n < b.N; n++ {
+			e.Add(nil)
+			e.Errs = e.Errs[:0]
+		}
+	})
+	b.Run("tree.nil", func(b *testing.B) {
+		e := New("test.tree.nil")
+		for n := 0; n < b.N; n++ {
+			e.Add((*Tree)(nil))
+			e.Errs = e.Errs[:0]
+		}
+	})
+	b.Run("tree", func(b *testing.B) {
+		e := New("test.tree.nil")
+		tr := New("internal")
+		for n := 0; n < b.N; n++ {
+			e.Add(tr)
+			e.Errs = e.Errs[:0]
+		}
+	})
+}
 
 func TestNil(t *testing.T) {
 	defer func() {
 		if r := recover(); r != nil {
-			t.Fatal(r)
+			t.Fatalf("%v\n%s", r, string(debug.Stack()))
 		}
 	}()
-	n := (*Tree)(nil)
+	n := new(Tree)
 	n.Add(fmt.Errorf(""))
 
 	// walk
 	Walk(n, func(e error) {
+		fmt.Fprintf(os.Stdout, "%T %v\n", e, e)
+	})
+}
+
+func TestWalkNil(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Fatalf("%v\n%s", r, string(debug.Stack()))
+		}
+	}()
+	// walk
+	Walk((*Tree)(nil), func(e error) {
 		fmt.Fprintf(os.Stdout, "%T %v\n", e, e)
 	})
 }

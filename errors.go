@@ -19,14 +19,12 @@ func New(name string) *Tree {
 
 // Add error in tree node
 func (e *Tree) Add(err error) *Tree {
-	if err == (error)(nil) {
+	if err == nil {
 		return nil
 	}
-	if e == (*Tree)(nil) {
-		return nil
-	}
-	if et, ok := err.(Tree); ok {
-		err = &et
+	switch v := err.(type) {
+	case Tree:
+		err = &v
 	}
 	e.Errs = append(e.Errs, err)
 	return e
