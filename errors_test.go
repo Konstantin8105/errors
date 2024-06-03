@@ -1,6 +1,8 @@
 package errors
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -45,7 +47,28 @@ func BenchmarkAdd(b *testing.B) {
 	})
 }
 
+func TestUnwrap(t *testing.T) {
+	t.Run("full", func(t *testing.T) {
+		te := fmt.Errorf("Unwrap test error")
+		e := New("TestUnwrap")
+		e.Add(fmt.Errorf("Some tests"))
+		e.Add(te)
+
+		if !errors.Is(e, te) {
+			t.Fatal("Not found unwrap")
+		}
+	})
+	t.Run("empty", func(t *testing.T) {
+		te := fmt.Errorf("Unwrap test error")
+		e := New("TestUnwrap")
+		if errors.Is(e, te) {
+			t.Fatal("Found unwrap")
+		}
+	})
+}
+
 func TestNil(t *testing.T) {
+	var buf bytes.Buffer
 	defer func() {
 		if r := recover(); r != nil {
 			t.Fatalf("%v\n%s", r, string(debug.Stack()))
@@ -56,7 +79,7 @@ func TestNil(t *testing.T) {
 
 	// walk
 	Walk(n, func(e error) {
-		fmt.Fprintf(os.Stdout, "%T %v\n", e, e)
+		fmt.Fprintf(&buf, "%T %v\n", e, e)
 	})
 }
 

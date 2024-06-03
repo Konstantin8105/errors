@@ -17,6 +17,14 @@ func New(name string) *Tree {
 	return tr
 }
 
+// Unwrap returns the result of calling the Unwrap method on err
+func (e *Tree) Unwrap() []error {
+	if e.IsError() {
+		return e.Errs
+	}
+	return nil
+}
+
 // Add error in tree node
 func (e *Tree) Add(err error) *Tree {
 	if err == nil {
